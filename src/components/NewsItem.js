@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 
 export class NewsItem extends Component {
   render() {
-    let {title,description,imageUrl,url,publishedAt,author}=this.props
+    let {title,description,imageUrl,url,publishedAt,author,source}=this.props
     return (
       <div>
           <div className="card" >
+          <span class="badge position-absolute top-0 translate-middle roounded-pill text-bg-warning" style={{left:'90%' , zIndex:'1'}}>{source}</span>
   <img src={imageUrl} className="card-img-top" alt="..."/>
   <div className="card-body">
     <h5 className="card-title">{title}...</h5>

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 
 export class News extends Component {
+  
   static defaultProps={
       country:'in',
       pageSize:9,
@@ -18,9 +19,11 @@ export class News extends Component {
   }
    articles = []
     
-  
-  constructor(){
-    super();
+   capitalizeFLetter(string) {
+ return string[0].toUpperCase() +
+        string.slice(1);}
+  constructor(props){
+    super(props);
     this.state={
       articles:this.articles,
       loading:false,
@@ -28,9 +31,11 @@ export class News extends Component {
       totalResults:0,
       totalpages:0
     }
+    document.title=`${this.capitalizeFLetter(this.props.category)} - DailyDigest`
   }
  
-  
+
+
   async componentDidMount(){
     let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8d0c09f86aa242448bdb54b5c62611f5&pageSize=${this.props.pageSize}`
     let data=await fetch(url)
@@ -72,7 +77,7 @@ export class News extends Component {
       <div className="container my-5">
     
 
-        <h1 className='text-center'>DailyDigest - Top Headlines</h1>
+        <h1 className='text-center'>DailyDigest - Top {this.capitalizeFLetter(this.props.category)} Headlines</h1>
         <div className="text-center my-3">
         {this.state.loading && <Loading/>}
         </div>
@@ -83,7 +88,7 @@ export class News extends Component {
                return  element.url && <div className="col-md-4 my-3" key={element.url}>
                 
                <NewsItem title={element.title && element.title.length>70?element.title.slice(0,70):element.title} description={element.description && element.description.length>88?element.description.slice(0,88):element.description} imageUrl={element.urlToImage?element.urlToImage:"https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg"}
-               url={element.url} publishedAt={element.publishedAt} author={element.author}
+               url={element.url} publishedAt={element.publishedAt} author={element.author} source={element.source.name}
                />
                </div>
           })}
